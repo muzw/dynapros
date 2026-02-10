@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+	<!-- Replace the content tag with appropriate information -->
+
+	<meta name="description" content="DESCRIPTION META TAG">
+	<meta property="og:title" content="SOCIAL MEDIA TITLE TAG" />
+	<meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG" />
+	<meta property="og:url" content="URL OF THE WEBSITE" />
+	<!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+	<meta property="og:image" content="static/image/your_banner_image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+
+
+	<meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+	<meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+	<!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+	<meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+	<meta name="twitter:card" content="summary_large_image">
+	<!-- Keywords for your paper to be indexed by-->
+	<meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+	<title> Prosody Enhanced LLM-Based TTS with Dynamic Prosody Token </title>
+	<link rel="icon" type="image/x-icon" href="static/images/favicon.io">
+	<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+	<link rel="stylesheet" href="static/css/bulma.min.css">
+	<link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+	<link rel="stylesheet" href="static/css/bulma-slider.min.css">
+	<link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+	<link rel="stylesheet" href="static/css/index.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+	<script defer src="static/js/fontawesome.all.min.js"></script>
+	<script src="static/js/bulma-carousel.min.js"></script>
+	<script src="static/js/bulma-slider.min.js"></script>
+	<script src="static/js/index.js"></script>
+</head>
+
+
+<body>
+	<div class="container py-5">
+        <div class="paper-container p-4 p-md-5">
+            <!-- 标题部分 -->
+            <div class="text-center mb-5">
+                <h1 class="header-title">DYNAMIC PROSODY PREDICTION IN LLM-BASED TTS FOR IMPROVING
+					SPEAKER SIMILARITY</h1>
+                <div class="authors">
+                    <p class="mb-1">Zhenwei Mou<sup>1</sup>, Liping Chen<sup>1</sup>, Yajun Hu<sup>2</sup>, Zhen-Hua Ling<sup>1</sup>, Xin Fang<sup>2</sup>, Jianqing Gao<sup>2</sup> </p>
+                    <p class="author-affiliation mb-0">
+                        <sup>1</sup>University of Science and Technology of China, Hefei, Anhui, China, <sup>2</sup>iFLYTEK, Hefei, Anhui, China
+                    </p>
+					<p class="author-affiliation mb-0">
+                        Emails: zwmu@mail.ustc.edu.cn, {lipchen, zhling}@ustc.edu.cn, {yjhu,xinfang,jqgao}@iflytek.com
+                    </p>
+                </div>
+                <div class="mt-3">
+                    <span class="badge bg-primary me-1">LLM-based TTS</span>
+                    <span class="badge bg-secondary me-1">speaker similarity</span>
+                    <span class="badge bg-success me-1">speaking style</span>
+                    <span class="badge bg-info">dynamic prosody prediction</span>
+                </div>
+            </div>
+
+            <!-- 摘要部分 -->
+            <h3 class="section-title">Abstract</h3>
+            <div class="abstract-box">
+                <p>Personalized text-to-speech (TTS) techniques are developed to clone the target speaker in the synthesized speech, imitating both the voice and speaking style. Current LLM-based TTS methods ignore the style-specific prosodic patterns in generated speech, resulting in deficient style learning and thus limiting speaker similarity in synthesized speech. To this end, we investigate the prosody learning conditioned on the synthesized speech, and propose to predict the prosody of the current syllable based on previously predicted speech. Experimental results obtained on three datasets demonstrated the efficacy of the proposed dynamic prosody prediction method in enhancing the prosody learning capability, thereby improving the speaker similarity of the generated speech. </p>
+            </div>
+
+            <!-- 模型图片 -->
+            <h3 class="section-title">Model Architecture</h3>
+            <div class="">
+                <img src="./data/pe_llm.png" class="img-fluid model-image" alt="Model architecture diagram">
+				<p class="text-center">(a) Overall architecture.</p>
+				<img src="./data/sequence.png" class="img-fluid model-image" alt="Model architecture diagram">
+				<p class="text-center">(b) Input and generated sequences in inference.</p>
+                <p class="">Fig. 1 Illustration of the LLM architecture integrated with dynamic prosody prediction.</p>
+            </div>
+
+			<h3 class="section-title">Results</h3>
+			<p>Evaluation was performed on three Chinese datasets, including the emotional speech dataset (ESD), an iFLYTEK internal speech dataset, and the AISHELL-3 test set. Among them, the ESD and the iFLYTEK internal datasets are rich in speaking style, while the AISHELL-3 dataset is flat in prosody. These test sets provided stylistic diversity (ESD and internal) and prosodic neutrality (AISHELL-3) for a comprehensive evaluation.</p>
+			<!-- <p>To examine the effectiveness of the proposed prosody prediction method, three models trained on our 50k dataset were compared, detailed as follows:</p>
+			<p>CosyVoice(50k): A CosyVoice LLM was trained from scratch on the 50k dataset. It served as the baseline model, which predicted speech tokens without explicit prosody modeling.</p>	
+			<p>CoT: Based on the CosyVoice LLM framework, given the target text and a reference speech combined with its text transcription, the prosody tokens for the entire utterance were generated at the syllable level first. Then the speech tokens for the frames were generated.</p>
+			<p>Proposed: The method as presented in this paper.</p> -->
+			<p>To examine the effectiveness of the proposed prosody prediction method, three models trained on our 50k dataset were compared, detailed as follows:</p> <ol> <li><strong>CosyVoice(50k)</strong>: A CosyVoice LLM was trained from scratch on the 50k dataset. It served as the baseline model, which predicted speech tokens without explicit prosody modeling.</li> <li><strong>CoT</strong>: Based on the CosyVoice LLM framework, given the target text and a reference speech combined with its text transcription, the prosody tokens for the entire utterance were generated at the syllable level first. Then the speech tokens for the frames were generated.</li> <li><strong>Proposed</strong>: The method as presented in this paper.</li> </ol>
+			<p>For the following samples, the reference speech and synthesized speech were concatenated, with the reference speech preceding the synthesized speech. The assessment measured the consistency and similarity between the synthesized and reference utterances of three dimensions: voice, speaking style (particularly emotion in the ESD and our internal test sets).</p>
+
+			<div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+				<table class="table table-hover pt-2">
+					<h4 class="text-center">ESD</h4>
+					<thead>
+						<tr>
+							<th style="text-align: center">Reference Text</th>
+							<th style="text-align: center">Target Text</th>
+							<th style="text-align: center">CosyVoice(50k)</th>
+							<th style="text-align: center">CoT </th>
+							<th style="text-align: center">Proposed</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">还有聊天记录。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">我还不知道你认识弗兰克。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cosyvoice(50k)/0005_000513.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cot/0005_000513.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/proposed/0005_000513.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+			
+						
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">这个位置不错，下车。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">以后不要喝那么多了，伤身体。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cosyvoice(50k)/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cot/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/proposed/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">那就一会再说，我好害怕。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">你绝对猜不到她准备要孩子了。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cosyvoice(50k)/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cot/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/proposed/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">这样子比较有趣。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">妇女节快乐。我永远爱你，妈妈。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cosyvoice(50k)/0009_001061.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cot/0009_001061.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/proposed/0009_001061.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">这样你就有时间挥拍打球了。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">我也知道自己是大嘴巴。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cosyvoice(50k)/0010_000840.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/cot/0010_000840.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/esd/proposed/0010_000840.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+				<table class="table table-hover pt-2">
+					<h4 class="text-center">Internal</h4>
+					<thead>
+						<tr>
+							<th style="text-align: center">Reference Text</th>
+							<th style="text-align: center">Target Text</th>
+							<th style="text-align: center">CosyVoice(50k)</th>
+							<th style="text-align: center">CoT </th>
+							<th style="text-align: center">Proposed</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">每个模样,也要怎么有脸去接地下的老太太啊。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">让他无法用手指抓扯任何物品。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cosyvoice(50k)/0561.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cot/0561.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/proposed/0561.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+			
+						
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">大王,黄飞虎一切都知道了,皇家军兵法武门了。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">总是要点缀三两女侠，一二胭脂。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cosyvoice(50k)/0242.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cot/0242.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/proposed/0242.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">我有孩儿了,我义渠要继承人了。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">还是有印度网友对此表示了质疑或担忧。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cosyvoice(50k)/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cot/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/proposed/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">刚刚收到通知,我们团队的作品获奖了!</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">他弓着手背悄悄地向苍蝇靠过去。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cosyvoice(50k)/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cot/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/proposed/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">打算如何处置?关于设定被刺下一眼,要打算如何的论断?</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">即使聋哑人士，也能以手语交谈。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cosyvoice(50k)/0925.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/cot/0925.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/internal/proposed/0925.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+				<table class="table table-hover pt-2">
+					<h4 class="text-center">AISHELL-3</h4>
+					<thead>
+						<tr>
+							<th style="text-align: center">Reference Text</th>
+							<th style="text-align: center">Target Text</th>
+							<th style="text-align: center">CosyVoice(50k)</th>
+							<th style="text-align: center">CoT </th>
+							<th style="text-align: center">Proposed</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">产销分离就不会彻底</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">那么这将动摇全世界运动员公平竞赛的基础</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cosyvoice(50k)/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cot/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/proposed/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+			
+						
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">济南市旅游景点有什么</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">变温室温度调至零下八摄氏度</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cosyvoice(50k)/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cot/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/proposed/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">七六零幺七九五五四一七</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">苏宁电器省家电市场店</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cosyvoice(50k)/0724.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cot/0724.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/proposed/0724.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">威斯康辛州的城市有什么</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">边缘出演的电视剧有什么</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cosyvoice(50k)/0826.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cot/0826.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/proposed/0826.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">一千一百零七万一千零四十四</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">弗兰科摩尼利安尼</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cosyvoice(50k)/0955.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/cot/0955.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/aishell/proposed/0955.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+
+			
+			<p>Finally, the proposed model, which was trained with the 50k dataset, was compared with three open-sourced TTS models trained with large-scale datasets, including CosyVoice and F5-TTS, which lack explicit prosody modeling and Vevo1.5, which adopts explicit modeling via CoT prompting. Specifically, the CosyVoice model was trained on a multilingual corpus totaling 170k hours, including 130k hours of Chinese data. Both the Vevo1.5 and F5-TTS models were trained with 100k hours of the Emilia dataset, comprising 50k hours of Chinese and 50k hours of English speech.</p>
+			<div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+				<table class="table table-hover pt-2">
+					<h4 class="text-center"></h4>
+					<thead>
+						<tr>
+							<th style="text-align: center">Reference Text</th>
+							<th style="text-align: center">Target Text</th>
+							<th style="text-align: center">CosyVoice</th>
+							<th style="text-align: center">MaskGCT </th>
+							<th style="text-align: center">Vevo1.5 </th>
+							<th style="text-align: center">Proposed</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">这个位置不错，下车。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">以后不要喝那么多了，伤身体。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0002_001119.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+			
+						
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">那就一会再说，我好害怕。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">你绝对猜不到她准备要孩子了。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0006_000533.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">我有孩儿了,我义渠要继承人了。</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">还是有印度网友对此表示了质疑或担忧。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0403.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">刚刚收到通知,我们团队的作品获奖了!</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">他弓着手背悄悄地向苍蝇靠过去。</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0522.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">产销分离就不会彻底</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">那么这将动摇全世界运动员公平竞赛的基础</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0387.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+						<tr>
+							<td style="text-align: left;vertical-align:middle;width: 350px">济南市旅游景点有什么</td>
+							<td style="text-align: left;vertical-align:middle;width: 350px">变温室温度调至零下八摄氏度</td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/cosyvoice/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/maskgct/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/vevo1.5/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+							<td style="text-align: center;vertical-align:middle"><audio controls="controls"
+									style="width: 180px;">
+									<source src="data/demo_web/other/proposed/0698.wav" autoplay="">Your browser
+									does not support the audio element.
+								</audio></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- 配置MathJax -->
+			<script>
+				window.MathJax = {
+					tex: {
+						inlineMath: [['$', '$'], ['\\(', '\\)']],
+						displayMath: [['$$', '$$'], ['\\[', '\\]']],
+						processEscapes: true,
+						processEnvironments: true
+					},
+					options: {
+						skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+					}
+				};
+			</script>
+
+</body>
+
+</html>
